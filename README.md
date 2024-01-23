@@ -1,4 +1,4 @@
-<h1 align="center">DiscordInflux</h1>
+<h1 align="center">TopicServers</h1>
 
 <br />
 
