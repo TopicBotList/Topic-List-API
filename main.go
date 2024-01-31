@@ -16,8 +16,8 @@ func main() {
 		Prefork:       true,
 		CaseSensitive: true,
 		StrictRouting: true,
-		ServerHeader:  "TopicServers",
-		AppName:       "A website used to list a Discord server.",
+		ServerHeader:  "TopicList",
+		AppName:       "A website used to list a Discord Server and Bots.",
 	})
 
 	config := configuration.GetConfig()
@@ -57,7 +57,7 @@ func main() {
 		})
 	}
 
-	v1 := app.Group("/private")
+	v1 := app.Group("/")
 
 	store := session.New()
 
@@ -79,7 +79,7 @@ func main() {
 		return c.Next()
 	})
 
-	v1.Get("/auth/login", routes.Login)
+	v1.Get("/private/auth/login", routes.Login)
 	v1.Get("/auth/callback", routes.Callback)
 	v1.Get("/auth/logout", routes.Logout)
 	v1.Get("/auth/@me", routes.GetCurrentUser)
