@@ -8,7 +8,7 @@ func getConfig() types.Config {
 	return types.Config{
 		ApiVersion: 5,
 		Database: types.Database{
-			Url: "mongodb+srv://Admin:RanveerSoni11@topic.q8qcpfz.mongodb.net/serv",
+			Url: "mongodb+srv://Admin:RanveerSoni11@topic.q8qcpfz.mongodb.net",
 		},
 		Web: types.Web{
 			Port:      "8080",
@@ -22,6 +22,7 @@ func getConfig() types.Config {
 		},
 		Collection: "entities",
 		APIUrl:     "https://k02hrtapiv5j.topiclist.xyz/private",
+		HCaptcha:   "be91bfbf-20c4-47de-a3af-846d5156d39c",
 	}
 }
 

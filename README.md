@@ -1,4 +1,4 @@
-<h1 align="center">TopicServers</h1>
+<h1 align="center">Topic List API</h1>
 
 <br />
 

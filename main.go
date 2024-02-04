@@ -40,7 +40,7 @@ func main() {
 	})
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "https://servers.topiclist.xyz",
+		AllowOrigins:     "https://beta.topiclist.xyz,http://localhost:3000,https://servers.topiclist.xyz,https://topiclist.xyz",
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
 		AllowCredentials: true,
@@ -83,6 +83,21 @@ func main() {
 	v1.Get("/auth/callback", routes.Callback)
 	v1.Get("/auth/logout", routes.Logout)
 	v1.Get("/auth/@me", routes.GetCurrentUser)
+	v1.Get("/sitemap", routes.SitemapHandler)
+	v1.Get("/users/edit", routes.UserSettings)
+	v1.Get("/users/settings", routes.UserSettings)
+	v1.Get("/users/notifications", routes.UserNotifications)
+	v1.Get("/private/server/all", routes.FindServers)
+	v1.Get("/private/server/:serverid", routes.GetServer)
+	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
+	v1.Get("/private/server/vote/:serverid", routes.VoteForServer)
+	v1.Get("/private/server/:serverid/edit", routes.EditServer)
+	v1.Get("/private/user/get", routes.GetUserInfo)
+	v1.Get("/private/user/:userid", routes.GetUser)
+	v1.Get("/private/user/edit", routes.EditUser)
+	v1.Get("/private/zippy/token", routes.GetToken)
+	v1.Get("/private/zippy/authorize", routes.AuthorizeZippy)
+	v1.Get("/private/add", routes.AddServer)
 
 	app.Listen(":" + config.Web.Port)
 }
