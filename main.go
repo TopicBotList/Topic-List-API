@@ -16,39 +16,27 @@ import (
 )
 
 func main() {
-
-	err := godotenv.Load()
-	if err != nil {
+	// Load environment variables from .env file
+	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
+	// Create Fiber app instance
 	app := fiber.New(fiber.Config{
 		Prefork:       true,
 		CaseSensitive: true,
 		StrictRouting: true,
 		ServerHeader:  "TopicList",
 		AppName:       "A website used to list a Discord Server and Bots.",
+		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			log.Println("Error:", err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": "Internal Server Error",
+			})
+		},
 	})
 
-	config := configuration.GetConfig()
-	app.Use(func(c *fiber.Ctx) error {
-		c.Locals("config", config)
-		return c.Next()
-	})
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.JSON(fiber.Map{
-			"message": "Hello, World!",
-			"version": "5.0.0",
-			"author":  "RanveerSoni",
-			"links": fiber.Map{
-				"status":  "https:/status.topiclist.xyz",
-				"docs":    "https://docs.topiclist.xyz/",
-				"support": "https://discord.gg/invite/Jad6TcdEet",
-			},
-		})
-	})
-
+	// Middleware: CORS
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "https://beta.topiclist.xyz,http://localhost:3000,https://servers.topiclist.xyz,https://topiclist.xyz",
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
@@ -56,39 +44,51 @@ func main() {
 		AllowCredentials: true,
 	}))
 
+	// Middleware: Database Connection
 	db, err := database.Connect(os.Getenv("DATABASE_URL"))
-
 	if err != nil {
-		panic(err)
-	} else {
-		app.Use(func(c *fiber.Ctx) error {
-			c.Locals("db", db)
-			return c.Next()
-		})
+		log.Fatal("Failed to connect to database:", err)
 	}
+	defer db.Disconnect(nil)
+	app.Use(func(c *fiber.Ctx) error {
+		c.Locals("db", db)
+		return c.Next()
+	})
 
-	v1 := app.Group("/")
-
+	// Middleware: Session
 	store := session.New()
-
-	v1.Use(func(c *fiber.Ctx) error {
+	app.Use(func(c *fiber.Ctx) error {
 		sess, _ := store.Get(c)
 		c.Locals("session", sess)
 		return c.Next()
 	})
 
-	v1.Use(func(c *fiber.Ctx) error {
+	// Middleware: OAuth2 Configuration
+	app.Use(func(c *fiber.Ctx) error {
 		c.Locals("authConfig", &oauth2.Config{
-			RedirectURL:  config.Client.Callback,
-			ClientID:     config.Client.Id,
+			RedirectURL:  configuration.GetConfig().Client.Callback,
+			ClientID:     configuration.GetConfig().Client.Id,
 			ClientSecret: os.Getenv("CLIENT_SECRET"),
 			Scopes:       []string{discord.ScopeIdentify},
 			Endpoint:     discord.Endpoint,
 		})
-
 		return c.Next()
 	})
 
+	// Routes
+	v1 := app.Group("/")
+	v1.Get("/", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{
+			"message": "Hello, World!",
+			"version": "5.0.0",
+			"author":  "RanveerSoni",
+			"links": fiber.Map{
+				"status":  "https://status.topiclist.xyz",
+				"docs":    "https://docs.topiclist.xyz/",
+				"support": "https://discord.gg/invite/Jad6TcdEet",
+			},
+		})
+	})
 	v1.Get("/auth/login", routes.Login)
 	v1.Get("/auth/callback", routes.Callback)
 	v1.Get("/auth/logout", routes.Logout)
@@ -109,5 +109,7 @@ func main() {
 	v1.Get("/private/zippy/authorize", routes.AuthorizeZippy)
 	v1.Get("/private/add", routes.AddServer)
 
-	app.Listen(":" + config.Web.Port)
+	// Listen and serve
+	port := configuration.GetConfig().Web.Port
+	log.Fatal(app.Listen(":" + port))
 }
