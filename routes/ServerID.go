@@ -4,7 +4,7 @@ package routes
 
 import (
 	"context"
-	"strconv" // Add this import statement
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -38,12 +38,13 @@ func GetServer(c *fiber.Ctx) error {
 			"error": "Error finding owner user",
 		})
 	}
-
 	data.OwnerName = user.Name
 	data.OwnerID = user.ID
 	data.OwnerAvatar = user.Avatar
-	data.Owner = strconv.FormatBool(user.Token == c.Query("token")) // Convert boolean to string
+	data.Owner = strconv.FormatBool(user.Token == c.Query("token"))
 
-	data.ID = "" // Remove MongoDB's "_id" field
+	// Set the ID field with the server ID
+	data.ID = serverID
+
 	return c.JSON(fiber.Map{"status": "OK", "server": data})
 }

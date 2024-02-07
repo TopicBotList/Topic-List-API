@@ -1,9 +1,13 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/session"
+	"github.com/joho/godotenv"
 	"github.com/ravener/discord-oauth2"
 	"go.topiclist.xyz/configuration"
 	"go.topiclist.xyz/database"
@@ -12,6 +16,12 @@ import (
 )
 
 func main() {
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	app := fiber.New(fiber.Config{
 		Prefork:       true,
 		CaseSensitive: true,
@@ -46,7 +56,7 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	db, err := database.Connect(config.Database.Url)
+	db, err := database.Connect(os.Getenv("DATABASE_URL"))
 
 	if err != nil {
 		panic(err)
@@ -71,7 +81,7 @@ func main() {
 		c.Locals("authConfig", &oauth2.Config{
 			RedirectURL:  config.Client.Callback,
 			ClientID:     config.Client.Id,
-			ClientSecret: config.Client.Secret,
+			ClientSecret: os.Getenv("CLIENT_SECRET"),
 			Scopes:       []string{discord.ScopeIdentify},
 			Endpoint:     discord.Endpoint,
 		})
@@ -79,7 +89,7 @@ func main() {
 		return c.Next()
 	})
 
-	v1.Get("/private/auth/login", routes.Login)
+	v1.Get("/auth/login", routes.Login)
 	v1.Get("/auth/callback", routes.Callback)
 	v1.Get("/auth/logout", routes.Logout)
 	v1.Get("/auth/@me", routes.GetCurrentUser)
@@ -88,7 +98,7 @@ func main() {
 	v1.Get("/users/settings", routes.UserSettings)
 	v1.Get("/users/notifications", routes.UserNotifications)
 	v1.Get("/private/server/all", routes.FindServers)
-	v1.Get("/private/server/:serverid", routes.GetServer)
+	v1.Get("/server/:serverid", routes.GetServer)
 	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
 	v1.Get("/private/server/vote/:serverid", routes.VoteForServer)
 	v1.Get("/private/server/:serverid/edit", routes.EditServer)
