@@ -1,11 +1,13 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/session"
+	"github.com/joho/godotenv"
 	"github.com/ravener/discord-oauth2"
 	"go.topiclist.xyz/configuration"
 	"go.topiclist.xyz/database"
@@ -14,6 +16,11 @@ import (
 )
 
 func main() {
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	app := fiber.New(fiber.Config{
 		Prefork:       true,
