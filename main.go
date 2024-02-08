@@ -108,6 +108,12 @@ func main() {
 	v1.Get("/private/zippy/token", routes.GetToken)
 	v1.Get("/private/zippy/authorize", routes.AuthorizeZippy)
 	v1.Get("/private/add", routes.AddServer)
+	v1.Get("/find_bots", routes.FindBots)
+	v1.Get("/reviews/:botid/add", routes.AddReview)
+	v1.Get("/reviews/:botid/delete", routes.DeleteReview)
+	v1.Get("/editbot/settings", routes.EditBotSettings)
+	v1.Get("/delete/:botid", routes.DeleteBot)
+	v1.Get("/users/edit", routes.UserEditBots)
 
 	// Listen and serve
 	port := configuration.GetConfig().Web.Port
