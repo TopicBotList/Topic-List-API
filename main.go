@@ -38,7 +38,7 @@ func main() {
 
 	// Middleware: CORS
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "https://beta.topiclist.xyz,http://localhost:3000,https://servers.topiclist.xyz,https://topiclist.xyz",
+		AllowOrigins:     "https://beta.topiclist.xyz,http://localhost:3000,https://server.topiclist.xyz,https://servers.topiclist.xyz,https://topiclist.xyz",
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
 		AllowCredentials: true,
@@ -93,7 +93,6 @@ func main() {
 	v1.Get("/auth/callback", routes.Callback)
 	v1.Get("/auth/logout", routes.Logout)
 	v1.Get("/auth/@me", routes.GetCurrentUser)
-	v1.Get("/sitemap", routes.SitemapHandler)
 	v1.Get("/users/edit", routes.UserSettings)
 	v1.Get("/users/settings", routes.UserSettings)
 	v1.Get("/users/notifications", routes.UserNotifications)
@@ -113,6 +112,7 @@ func main() {
 	v1.Get("/reviews/:botid/delete", routes.DeleteReview)
 	v1.Get("/editbot/settings", routes.EditBotSettings)
 	v1.Get("/delete/:botid", routes.DeleteBot)
+	v1.Get("/sitemap", routes.SitemapHandler)
 	v1.Get("/users/edit", routes.UserEditBots)
 
 	// Listen and serve
