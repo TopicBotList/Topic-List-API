@@ -34,6 +34,7 @@ type User struct {
 	Entity        interface{} `json:"entity" bson:"entity"`
 	Name          string      `json:"name"`
 	Password      string      `json:"password"`
+	Approved      string      `json:"approved"`
 	DisplayName   string      `json:"display_name"`
 }
 

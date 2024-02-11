@@ -97,7 +97,7 @@ func main() {
 	v1.Get("/users/settings", routes.UserSettings)
 	v1.Get("/users/notifications", routes.UserNotifications)
 	v1.Get("/private/server/all", routes.FindServers)
-	v1.Get("/server/:serverid", routes.GetServer)
+	v1.Get("/private/server/:serverid", routes.GetServer)
 	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
 	v1.Get("/private/server/vote/:serverid", routes.VoteForServer)
 	v1.Get("/private/server/:serverid/edit", routes.EditServer)
@@ -114,6 +114,7 @@ func main() {
 	v1.Get("/delete/:botid", routes.DeleteBot)
 	v1.Get("/sitemap", routes.SitemapHandler)
 	v1.Get("/users/edit", routes.UserEditBots)
+	v1.Get("/bot", routes.BotRoute)
 
 	// Listen and serve
 	port := configuration.GetConfig().Web.Port
