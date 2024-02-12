@@ -55,7 +55,7 @@ func BotRoute(c *fiber.Ctx) error {
 	var analyticsDocument bson.M
 	anuserResult := analyticsCollection.FindOne(context.TODO(), bson.M{"id": userDocument["id"]})
 	if err := anuserResult.Decode(&analyticsDocument); err != nil {
-		_, err := analyticsCollection.InsertOne(context.TODO(), bson.M{"id": userDocument["id"], "views": 0, "impressions": 0})
+		_, err := analyticsCollection.InsertOne(context.TODO(), bson.M{"id": userDocument["id"], "views": int32(0), "impressions": int32(0)})
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to insert analytics data"})
 		}
@@ -68,7 +68,9 @@ func BotRoute(c *fiber.Ctx) error {
 	analyticsDocument["_id"] = nil
 
 	if c.Query("userview") != "" {
-		_, err := analyticsCollection.UpdateOne(context.TODO(), bson.M{"id": userDocument["id"]}, bson.M{"$set": bson.M{"views": analyticsDocument["views"].(int) + 1}})
+		viewsInt32, _ := analyticsDocument["views"].(int32)
+		views := int(viewsInt32)
+		_, err := analyticsCollection.UpdateOne(context.TODO(), bson.M{"id": userDocument["id"]}, bson.M{"$set": bson.M{"views": views + 1}})
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to update analytics data"})
 		}

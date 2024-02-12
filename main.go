@@ -89,24 +89,24 @@ func main() {
 			},
 		})
 	})
+	//Shared
 	v1.Get("/auth/login", routes.Login)
 	v1.Get("/auth/callback", routes.Callback)
 	v1.Get("/auth/logout", routes.Logout)
 	v1.Get("/auth/@me", routes.GetCurrentUser)
-	v1.Get("/users/edit", routes.UserSettings)
-	v1.Get("/users/settings", routes.UserSettings)
-	v1.Get("/users/notifications", routes.UserNotifications)
+	//Servers
 	v1.Get("/private/server/all", routes.FindServers)
 	v1.Get("/private/server/:serverid", routes.GetServer)
-	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
-	v1.Get("/private/server/vote/:serverid", routes.VoteForServer)
-	v1.Get("/private/server/:serverid/edit", routes.EditServer)
-	v1.Get("/private/user/get", routes.GetUserInfo)
+	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory) //unknown state
+	v1.Get("/private/server/vote/:serverid", routes.VoteForServer)   //unknown state
+	v1.Get("/private/server/:serverid/edit", routes.EditServer)      //unknown state
+	v1.Get("/private/user/get", routes.GetUserInfo)                  //unknown state
 	v1.Get("/private/user/:userid", routes.GetUser)
 	v1.Get("/private/user/edit", routes.EditUser)
-	v1.Get("/private/zippy/token", routes.GetToken)
-	v1.Get("/private/zippy/authorize", routes.AuthorizeZippy)
+	v1.Get("/private/zippy/token", routes.GetToken)           //unknown state
+	v1.Get("/private/zippy/authorize", routes.AuthorizeZippy) //unknown state
 	v1.Get("/private/add", routes.AddServer)
+	//Bots
 	v1.Get("/find_bots", routes.FindBots)
 	v1.Get("/reviews/:botid/add", routes.AddReview)
 	v1.Get("/reviews/:botid/delete", routes.DeleteReview)
@@ -115,6 +115,10 @@ func main() {
 	v1.Get("/sitemap", routes.SitemapHandler)
 	v1.Get("/users/edit", routes.UserEditBots)
 	v1.Get("/bot", routes.BotRoute)
+	v1.Get("/users/edit", routes.UserSettings)
+	v1.Get("/users/settings", routes.UserSettings)
+	v1.Get("/users/notifications", routes.UserNotifications)
+	v1.Get("/info", routes.InfoRoute)
 
 	// Listen and serve
 	port := configuration.GetConfig().Web.Port
