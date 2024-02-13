@@ -38,7 +38,7 @@ func main() {
 
 	// Middleware: CORS
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "https://beta.topiclist.xyz,http://localhost:3000,https://topic-bots.vercel.app,https://server.topiclist.xyz,https://servers.topiclist.xyz,https://topiclist.xyz",
+		AllowOrigins:     "https://beta.topiclist.xyz,https://beta.topiclist.xyz,http://localhost:3001,http://localhost:3000,https://topic-bots.vercel.app,https://server.topiclist.xyz,https://servers.topiclist.xyz,https://topiclist.xyz",
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
 		AllowCredentials: true,
