@@ -5,8 +5,9 @@ go 1.18
 require (
 	github.com/gofiber/fiber/v2 v2.48.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/joho/godotenv v1.5.1
 	github.com/ravener/discord-oauth2 v0.0.0-20230514095040-ae65713199b3
-	go.mongodb.org/mongo-driver v1.12.0
+	go.mongodb.org/mongo-driver v1.13.1
 	golang.org/x/oauth2 v0.10.0
 )
 

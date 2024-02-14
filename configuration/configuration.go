@@ -1,6 +1,8 @@
 package configuration
 
 import (
+	"os"
+
 	"go.topiclist.xyz/types"
 )
 
@@ -8,21 +10,21 @@ func getConfig() types.Config {
 	return types.Config{
 		ApiVersion: 5,
 		Database: types.Database{
-			Url: "mongodb+srv://Admin:RanveerSoni11@topic.q8qcpfz.mongodb.net",
+			Url: os.Getenv("DATABASE_URL"),
 		},
 		Web: types.Web{
 			Port:      "8080",
-			ReturnUrl: "https://servers.topiclist.xyz",
+			ReturnUrl: "http://localhost:3000",
 		},
 		Client: types.Client{
 			Id:       "1006423342401732691",
-			Secret:   "rn06jIkC0J9XCuuejaRNJ3ZHGWon3gRQ",
-			Token:    "MTAwNjQyMzM0MjQwMTczMjY5MQ.GYtWnK.bnr1UB0LJ-fBphrzBHL3WEFnRaQhMTx_mdBY6M",
-			Callback: "https://servers.topiclist.xyz/private/auth/callback",
+			Secret:   os.Getenv("CLIENT_SECRET"),
+			Token:    os.Getenv("CLIENT_TOKEN"),
+			Callback: "http://127.0.0.1:8080//auth/callback",
 		},
 		Collection: "entities",
-		APIUrl:     "https://k02hrtapiv5j.topiclist.xyz/private",
-		HCaptcha:   "be91bfbf-20c4-47de-a3af-846d5156d39c",
+		APIUrl:     "http://127.0.0.1:8080/",
+		HCaptcha:   os.Getenv("HCAPTCHA_SECRET"),
 	}
 }
 

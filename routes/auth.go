@@ -118,7 +118,7 @@ func Callback(c *fiber.Ctx) error {
 		"loggedAt":     time.Now(),
 	}}, opts)
 
-	entities := db.Database("discordinflux").Collection("entities")
+	entities := db.Database("tbServersDB1").Collection("usersDB1")
 	var entity types.User
 
 	entities.FindOne(context.Background(), bson.M{"discord.id": user.ID}).Decode(&entity)

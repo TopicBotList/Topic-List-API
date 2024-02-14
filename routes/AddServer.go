@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -18,7 +19,7 @@ func AddServer(c *fiber.Ctx) error {
 	captchaResponse := c.FormValue("captcha")
 
 	hCaptchaResp, err := http.PostForm("https://hcaptcha.com/siteverify", map[string][]string{
-		"secret":   {"be91bfbf-20c4-47de-a3af-846d5156d39c"},
+		"secret":   {os.Getenv("HCAPTCHA_SECRET")},
 		"response": {captchaResponse},
 	})
 	if err != nil {

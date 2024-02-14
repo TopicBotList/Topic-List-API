@@ -1,10 +1,7 @@
-// routes/server.go
-
 package routes
 
 import (
 	"context"
-	"strconv" // Add this import statement
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -13,8 +10,6 @@ import (
 )
 
 func GetServer(c *fiber.Ctx) error {
-	serverID := c.Params("serverid")
-
 	db, ok := c.Locals("db").(*mongo.Client)
 	if !ok {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -22,28 +17,34 @@ func GetServer(c *fiber.Ctx) error {
 		})
 	}
 
+	serverID := c.Params("serverid")
+
 	serversCollection := db.Database("tbServersDB1").Collection("serversDB1")
+
+	var server types.Server
+	err := serversCollection.FindOne(context.Background(), bson.M{"id": serverID}).Decode(&server)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"status": "NOT_FOUND"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	// Find the owner details
 	usersCollection := db.Database("tbServersDB1").Collection("usersDB1")
-
-	data := types.Server{}
-	err := serversCollection.FindOne(context.Background(), bson.M{"id": serverID}).Decode(&data)
+	var user types.User
+	err = usersCollection.FindOne(context.Background(), bson.M{"token": server.Owner}).Decode(&user)
 	if err != nil {
-		return c.JSON(fiber.Map{"status": "NOT_FOUND"})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	user := types.User{}
-	err = usersCollection.FindOne(context.Background(), bson.M{"token": data.Owner}).Decode(&user)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Error finding owner user",
-		})
-	}
+	// Modify server data
+	server.OwnerName = user.Name
+	server.OwnerID = user.ID
+	server.OwnerAvatar = user.Avatar
 
-	data.OwnerName = user.Name
-	data.OwnerID = user.ID
-	data.OwnerAvatar = user.Avatar
-	data.Owner = strconv.FormatBool(user.Token == c.Query("token")) // Convert boolean to string
+	// Remove _id field
+	server.ID = serverID
 
-	data.ID = "" // Remove MongoDB's "_id" field
-	return c.JSON(fiber.Map{"status": "OK", "server": data})
+	return c.JSON(fiber.Map{"status": "OK", "server": server})
 }
