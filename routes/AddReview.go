@@ -39,9 +39,17 @@ func AddReview(c *fiber.Ctx) error {
 		return c.Status(http.StatusNotFound).JSON(fiber.Map{"reply": "BOT_INVALID"})
 	}
 
-	reviews := data["reviews"].([]interface{})
-	if reviews == nil {
-		reviews = make([]interface{}, 0)
+	// Handling the reviews field correctly
+	var reviews bson.A
+	reviewsInterface := data["reviews"]
+	if reviewsInterface == nil {
+		reviews = bson.A{}
+	} else {
+		var ok bool
+		reviews, ok = reviewsInterface.(bson.A)
+		if !ok {
+			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": "Reviews field type assertion failed"})
+		}
 	}
 
 	review := map[string]interface{}{

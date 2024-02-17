@@ -14,16 +14,16 @@ func getConfig() types.Config {
 		},
 		Web: types.Web{
 			Port:      "8080",
-			ReturnUrl: "http://localhost:3000",
+			ReturnUrl: "https://beta.topiclist.xyz/",
 		},
 		Client: types.Client{
 			Id:       "1006423342401732691",
 			Secret:   os.Getenv("CLIENT_SECRET"),
 			Token:    os.Getenv("CLIENT_TOKEN"),
-			Callback: "http://127.0.0.1:8080//auth/callback",
+			Callback: "https://beta.topiclist.xyz/auth/callback",
 		},
 		Collection: "entities",
-		APIUrl:     "http://127.0.0.1:8080/",
+		APIUrl:     "https://api.topiclist.xyz/",
 		HCaptcha:   os.Getenv("HCAPTCHA_SECRET"),
 	}
 }

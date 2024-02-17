@@ -108,7 +108,7 @@ func main() {
 	v1.Get("/private/add", routes.AddServer)
 	//Bots
 	v1.Get("/find_bots", routes.FindBots)
-	v1.Get("/reviews/:botid/add", routes.AddReview)
+	v1.Get("/reviews/:botid/add", routes.AddReview) //works
 	v1.Get("/reviews/:botid/delete", routes.DeleteReview)
 	v1.Get("/editbot/settings", routes.EditBotSettings)
 	v1.Get("/delete/:botid", routes.DeleteBot)
