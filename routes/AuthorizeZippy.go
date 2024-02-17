@@ -20,7 +20,7 @@ func AuthorizeZippy(c *fiber.Ctx) error {
 		})
 	}
 
-	usersCollection := db.Database("tbServersDB1").Collection("usersDB1")
+	usersCollection := db.Database("TopicBots").Collection("usersDB1")
 
 	user := types.User{}
 	err := usersCollection.FindOne(context.Background(), bson.M{"zippyCode": code}).Decode(&user)

@@ -19,7 +19,7 @@ func GetServer(c *fiber.Ctx) error {
 
 	serverID := c.Params("serverid")
 
-	serversCollection := db.Database("tbServersDB1").Collection("serversDB1")
+	serversCollection := db.Database("TopicBots").Collection("serversDB1")
 
 	var server types.Server
 	err := serversCollection.FindOne(context.Background(), bson.M{"id": serverID}).Decode(&server)
@@ -31,7 +31,7 @@ func GetServer(c *fiber.Ctx) error {
 	}
 
 	// Find the owner details
-	usersCollection := db.Database("tbServersDB1").Collection("usersDB1")
+	usersCollection := db.Database("TopicBots").Collection("usersDB1")
 	var user types.User
 	err = usersCollection.FindOne(context.Background(), bson.M{"token": server.Owner}).Decode(&user)
 	if err != nil {

@@ -22,8 +22,8 @@ func GetUser(c *fiber.Ctx) error {
 		})
 	}
 
-	usersCollection := db.Database("tbServersDB1").Collection("usersDB1")
-	serversCollection := db.Database("tbServersDB1").Collection("serversDB1")
+	usersCollection := db.Database("TopicBots").Collection("usersDB1")
+	serversCollection := db.Database("TopicBots").Collection("serversDB1")
 
 	data := types.User{}
 	err := usersCollection.FindOne(context.Background(), bson.M{"id": userID}).Decode(&data)
@@ -62,7 +62,7 @@ func GetUser(c *fiber.Ctx) error {
 		server.OwnerName = user.Name
 		server.OwnerID = user.ID
 		server.OwnerAvatar = user.Avatar
-		server.ID = "" // Remove MongoDB's "_id" field
+		server.ID = ""    // Remove MongoDB's "_id" field
 		server.Owner = "" // Remove the owner field
 		fServer = append(fServer, server)
 	}

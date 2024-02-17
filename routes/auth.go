@@ -94,7 +94,7 @@ func Callback(c *fiber.Ctx) error {
 	}
 
 	var db *mongo.Client = c.Locals("db").(*mongo.Client)
-	users := db.Database("tbServersDB1").Collection("usersDB1")
+	users := db.Database("TopicBots").Collection("usersDB1")
 
 	var result types.User
 
@@ -118,7 +118,7 @@ func Callback(c *fiber.Ctx) error {
 		"loggedAt":     time.Now(),
 	}}, opts)
 
-	entities := db.Database("tbServersDB1").Collection("usersDB1")
+	entities := db.Database("TopicBots").Collection("usersDB1")
 	var entity types.User
 
 	entities.FindOne(context.Background(), bson.M{"discord.id": user.ID}).Decode(&entity)

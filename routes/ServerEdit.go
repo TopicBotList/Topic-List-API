@@ -22,8 +22,8 @@ func EditServer(c *fiber.Ctx) error {
 		})
 	}
 
-	usersCollection := db.Database("tbServersDB1").Collection("usersDB1")
-	serversCollection := db.Database("tbServersDB1").Collection("serversDB1")
+	usersCollection := db.Database("TopicBots").Collection("usersDB1")
+	serversCollection := db.Database("TopicBots").Collection("serversDB1")
 
 	data := types.Server{}
 	err := serversCollection.FindOne(context.Background(), bson.M{"id": serverID}).Decode(&data)
