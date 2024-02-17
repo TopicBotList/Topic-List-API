@@ -119,6 +119,7 @@ func main() {
 	v1.Get("/users/settings", routes.UserSettings)
 	v1.Get("/users/notifications", routes.UserNotifications)
 	v1.Get("/info", routes.InfoRoute)
+	v1.Get("/explore", routes.Explore)
 
 	// Listen and serve
 	port := configuration.GetConfig().Web.Port

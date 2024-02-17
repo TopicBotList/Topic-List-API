@@ -54,7 +54,7 @@ func AddServer(c *fiber.Ctx) error {
 		})
 	}
 
-	serversCollection := db.Database("tbServersDB1").Collection("serversDB1")
+	serversCollection := db.Database("TopicBots").Collection("serversDB1")
 
 	serverPayload := bson.M{
 		"name":        c.FormValue("name"),

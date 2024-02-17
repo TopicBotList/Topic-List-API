@@ -23,9 +23,9 @@ func VoteForServer(c *fiber.Ctx) error {
 		})
 	}
 
-	usersCollection := db.Database("tbServersDB1").Collection("usersDB1")
-	serversCollection := db.Database("tbServersDB1").Collection("serversDB1")
-	votesCollection := db.Database("tbServersDB1").Collection("votesDB1")
+	usersCollection := db.Database("TopicBots").Collection("usersDB1")
+	serversCollection := db.Database("TopicBots").Collection("serversDB1")
+	votesCollection := db.Database("TopicBots").Collection("votesDB1")
 
 	user := types.User{}
 	err := usersCollection.FindOne(context.Background(), bson.M{"token": token}).Decode(&user)

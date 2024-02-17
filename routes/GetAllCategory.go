@@ -22,8 +22,8 @@ func FindServersByCategory(c *fiber.Ctx) error {
 		})
 	}
 
-	usersCollection := db.Database("tbServersDB1").Collection("usersDB1")
-	serversCollection := db.Database("tbServersDB1").Collection("serversDB1")
+	usersCollection := db.Database("TopicBots").Collection("usersDB1")
+	serversCollection := db.Database("TopicBots").Collection("serversDB1")
 
 	// Find servers with the specified category, sorted by votes in descending order
 	cursor, err := serversCollection.Find(context.Background(), bson.M{"category": category}, options.Find().SetSort(bson.M{"votes": -1}))

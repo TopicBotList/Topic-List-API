@@ -53,7 +53,7 @@ func ValidateJWT(c *fiber.Ctx) interface{} {
 	}
 
 	db := c.Locals("db").(*mongo.Client)
-	users := db.Database("tbServersDB1").Collection("usersDB1")
+	users := db.Database("TopicBots").Collection("usersDB1")
 
 	var result types.User
 
@@ -98,7 +98,7 @@ func GetUser(c *fiber.Ctx) interface{} {
 	}
 
 	db := c.Locals("db").(*mongo.Client)
-	users := db.Database("tbServersDB1").Collection("usersDB1")
+	users := db.Database("TopicBots").Collection("usersDB1")
 
 	var result types.User
 
@@ -118,7 +118,7 @@ func GetUserID(c *fiber.Ctx) string {
 	}
 
 	db := c.Locals("db").(*mongo.Client)
-	users := db.Database("tbServersDB1").Collection("usersDB1")
+	users := db.Database("TopicBots").Collection("usersDB1")
 
 	var result types.User
 
@@ -139,7 +139,7 @@ func GetDetailedUser(c *fiber.Ctx) types.User {
 	}
 
 	db := c.Locals("db").(*mongo.Client)
-	users := db.Database("tbServersDB1").Collection("usersDB1")
+	users := db.Database("TopicBots").Collection("usersDB1")
 
 	var result types.User
 
