@@ -1,6 +1,6 @@
 # Security Policy
 
-Thanks for your intrest in our Go API. Here at Topic security od our users data is valuable to us. Thanks for reporting. We appreciate your contribution to the security of our project. We will investigate all reports promptly and provide updates as necessary.
+Thanks for your intrest in our Go API. Here at Topic security of our users data is valuable to us. Thanks for reporting. We appreciate your contribution to the security of our project. We will investigate all reports promptly and provide updates as necessary.
 
 ## Supported Versions
 
