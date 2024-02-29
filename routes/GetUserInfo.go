@@ -13,7 +13,6 @@ import (
 
 func GetUser(c *fiber.Ctx) error {
 	userID := c.Params("userid")
-	token := c.Query("token")
 
 	db, ok := c.Locals("db").(*mongo.Client)
 	if !ok {
@@ -31,7 +30,8 @@ func GetUser(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{"result": "invalid"})
 	}
 
-	data.ID = "" // Remove MongoDB's "_id" field
+	data.AccessToken = ""
+	data.ID = data.ID // Remove MongoDB's "_id" field
 
 	userServersCursor, err := serversCollection.Find(context.Background(), bson.M{"owner": data.Token})
 	if err != nil {
@@ -63,11 +63,11 @@ func GetUser(c *fiber.Ctx) error {
 		server.OwnerID = user.ID
 		server.OwnerAvatar = user.Avatar
 		server.ID = server.ID // Remove MongoDB's "_id" field
-		server.Owner = server.Owner
+		server.Owner = ""
 		fServer = append(fServer, server)
 	}
 
-	data.Owner = token == data.Token
+	data.Owner = ""
 	data.Token = "" // Remove the token for security reasons
 	data.Servers = fServer
 

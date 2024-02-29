@@ -12,8 +12,8 @@ import (
 	"go.topiclist.xyz/types"
 )
 
-func VoteServ(c *fiber.Ctx) error {
-	serverID := c.Params("serverid")
+func VoteBot(c *fiber.Ctx) error {
+	botID := c.Params("botid")
 	token := c.Query("token")
 
 	db, ok := c.Locals("db").(*mongo.Client)
@@ -24,7 +24,7 @@ func VoteServ(c *fiber.Ctx) error {
 	}
 
 	usersCollection := db.Database("TopicBots").Collection("usersDB1")
-	serversCollection := db.Database("TopicBots").Collection("serversDB1")
+	botsCollection := db.Database("TopicBots").Collection("BotsDB1")
 	votesCollection := db.Database("TopicBots").Collection("votesDB1")
 
 	user := types.User{}
@@ -34,32 +34,32 @@ func VoteServ(c *fiber.Ctx) error {
 	}
 
 	data := types.Vote{}
-	err = votesCollection.FindOne(context.Background(), bson.M{"token": token, "server": serverID}).Decode(&data)
+	err = votesCollection.FindOne(context.Background(), bson.M{"token": token, "bot": botID}).Decode(&data)
 	if err == nil {
 		if data.End < time.Now().Unix() {
-			votesCollection.DeleteOne(context.Background(), bson.M{"token": token, "server": serverID})
+			votesCollection.DeleteOne(context.Background(), bson.M{"token": token, "bot": botID})
 		} else {
 			return c.JSON(fiber.Map{"status": "INVALID"})
 		}
 	}
 
 	payload := types.Vote{
-		Token:  token,
-		Server: serverID,
-		End:    time.Now().Unix() + 43200,
+		Token: token,
+		Bot:   botID,
+		End:   time.Now().Unix() + 43200,
 	}
 
-	server := types.Server{}
-	err = serversCollection.FindOne(context.Background(), bson.M{"id": serverID}).Decode(&server)
+	bot := types.Bots{}
+	err = botsCollection.FindOne(context.Background(), bson.M{"id": botID}).Decode(&bot)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Error finding server",
 		})
 	}
 
-	_, err = serversCollection.UpdateOne(context.Background(),
-		bson.M{"id": serverID},
-		bson.M{"$set": bson.M{"votes": server.Votes + 1}})
+	_, err = botsCollection.UpdateOne(context.Background(),
+		bson.M{"id": botID},
+		bson.M{"$set": bson.M{"votes": bot.Votes + 1}})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Error updating server votes",

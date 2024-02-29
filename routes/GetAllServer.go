@@ -39,8 +39,9 @@ func FindServers(c *fiber.Ctx) error {
 				"error": "Error decoding user",
 			})
 		}
-		fuser.ID = ""    // Remove MongoDB's "_id" field
-		fuser.Token = "" // Remove the 'token' field
+		fuser.ID = fuser.ID    // Remove MongoDB's "_id" field
+		fuser.Token = ""       // Remove the 'token' field
+		fuser.AccessToken = "" //remove access token field
 		ffusers = append(ffusers, fuser)
 	}
 
@@ -73,8 +74,10 @@ func FindServers(c *fiber.Ctx) error {
 		}
 
 		server.OwnerName = user.Name
+		user.AccessToken = "" //remove access token field
 		server.OwnerID = user.ID
 		server.OwnerAvatar = user.Avatar
+		server.Owner = ""           // Remove the owner field
 		server.ID = server.ID       // Remove MongoDB's "_id" field
 		server.Owner = server.Owner // Remove the owner field
 		ftop = append(ftop, server)
@@ -110,9 +113,11 @@ func FindServers(c *fiber.Ctx) error {
 
 		server.OwnerName = user.Name
 		server.OwnerID = user.ID
+		server.Owner = "" // Remove the owner field
 		server.OwnerAvatar = user.Avatar
 		server.ID = server.ID       // Remove MongoDB's "_id" field
 		server.Owner = server.Owner // Remove the owner field
+		user.AccessToken = ""       //remove access token field
 		flatest = append(flatest, server)
 	}
 

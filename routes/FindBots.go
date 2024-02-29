@@ -54,13 +54,14 @@ func FindBots(c *fiber.Ctx) error {
 		}
 	}
 
-	botsData := make([]interface{}, 0)
+	botsData := make([]map[string]interface{}, 0)
 	for data.Next(context.Background()) {
 		var bot map[string]interface{}
 		if err := data.Decode(&bot); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 		delete(bot, "_id")
+		delete(bot, "token") // Remove token field
 		botsData = append(botsData, bot)
 	}
 
@@ -71,13 +72,14 @@ func FindBots(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	lastBotsData := make([]interface{}, 0)
+	lastBotsData := make([]map[string]interface{}, 0)
 	for data.Next(context.Background()) {
 		var bot map[string]interface{}
 		if err := data.Decode(&bot); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 		delete(bot, "_id")
+		delete(bot, "token") // Remove token field
 		lastBotsData = append(lastBotsData, bot)
 	}
 

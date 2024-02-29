@@ -97,10 +97,10 @@ func main() {
 	//Servers
 	v1.Get("/private/server/all", routes.FindServers)
 	v1.Get("/private/server/:serverid", routes.GetServer)
-	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory) //unknown state
-	v1.Get("/private/server/vote/:serverid", routes.VoteForServer)   //unknown state
-	v1.Get("/private/server/:serverid/edit", routes.EditServer)      //unknown state
-	v1.Get("/private/user/get", routes.GetUserInfo)                  //unknown state
+	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
+	v1.Get("/private/server/vote/:serverid", routes.VoteServ)
+	v1.Get("/private/server/:serverid/edit", routes.EditServer)
+	v1.Get("/private/user/get", routes.GetUserInfo)
 	v1.Get("/private/user/:userid", routes.GetUser)
 	v1.Get("/private/user/edit", routes.EditUser)
 	v1.Get("/private/zippy/token", routes.GetToken)           //unknown state
@@ -112,13 +112,13 @@ func main() {
 	v1.Get("/reviews/:botid/delete", routes.DeleteReview)
 	v1.Get("/editbot/settings", routes.EditBotSettings)
 	v1.Get("/delete/:botid", routes.DeleteBot)
-	v1.Get("/sitemap", routes.SitemapHandler)
 	v1.Get("/users/edit", routes.UserEditBots)
 	v1.Get("/bot", routes.BotRoute)
 	v1.Get("/users/edit", routes.UserSettings)
 	v1.Get("/users/settings", routes.UserSettings)
 	v1.Get("/users/notifications", routes.UserNotifications)
 	v1.Get("/info", routes.InfoRoute)
+	v1.Get("/vote/:botid", routes.VoteBot)
 	v1.Get("/explore", routes.Explore)
 
 	// Listen and serve
