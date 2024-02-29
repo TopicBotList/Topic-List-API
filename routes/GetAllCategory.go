@@ -1,5 +1,3 @@
-// routes/category.go
-
 package routes
 
 import (
@@ -54,8 +52,11 @@ func FindServersByCategory(c *fiber.Ctx) error {
 
 		server.OwnerName = user.Name
 		server.OwnerID = user.ID
+		user.AccessToken = "" //remove access token field
+		user.Token = ""
 		server.OwnerAvatar = user.Avatar
-		server.ID = "" // Remove MongoDB's "_id" field
+		server.Owner = ""
+		server.ID = server.ID // Remove MongoDB's "_id" field
 
 		fdata = append(fdata, server)
 	}
@@ -79,10 +80,15 @@ func FindServersByCategory(c *fiber.Ctx) error {
 			})
 		}
 
-		fuser.ID = ""       // Remove MongoDB's "_id" field
-		fuser.Token = ""    // Remove the token for security reasons
+		// Mask the token field
+		fuser.Token = "********" // Masked value
+		fuser.AccessToken = "********"
+		fuser.ID = fuser.ID
 		fuser.Password = "" // Remove the password for security reasons
 
+		// Remove the owner field from the user
+		fuser.Owner = "********" //remove this thindy
+		fuser.Token = "********"
 		fusers = append(fusers, fuser)
 	}
 

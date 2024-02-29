@@ -42,6 +42,7 @@ func GetServer(c *fiber.Ctx) error {
 	server.OwnerName = user.Name
 	server.OwnerID = user.ID
 	server.OwnerAvatar = user.Avatar
+	server.Owner = "" // Remove the owner field
 
 	// Remove _id field
 	server.ID = serverID

@@ -71,22 +71,16 @@ func EditUser(c *fiber.Ctx) error {
 		}
 
 		user := types.User{}
-		err = usersCollection.FindOne(context.Background(), bson.M{"token": server.Owner}).Decode(&user)
-		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": "Error finding owner user",
-			})
-		}
 
 		server.OwnerName = user.Name
 		server.OwnerID = user.ID
 		server.OwnerAvatar = user.Avatar
-		server.ID = ""    // Remove MongoDB's "_id" field
-		server.Owner = "" // Remove the owner field
+		server.ID = server.ID // Remove MongoDB's "_id" field
+		server.Owner = ""     // Remove the owner field
 		fServer = append(fServer, server)
 	}
 
-	data.Owner = token == data.Token
+	data.Owner = ""
 	data.Token = "" // Remove the token for security reasons
 	data.Servers = fServer
 

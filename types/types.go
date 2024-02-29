@@ -16,6 +16,26 @@ type Server struct {
 	Invite      string `json:"invite"`
 }
 
+type Bots struct {
+	ID            string   `json:"id"`
+	Name          string   `json:"name"`
+	Discriminator string   `json:"Discriminator"`
+	Website       string   `json:"Website URL"`
+	Github        string   `json:"github"`
+	Avatar        string   `json:"avatar"`
+	Tags          []string `json:"tags"`
+	Votes         int      `json:"votes"`
+	Reviews       []string `bson:"reviews"`
+	Shortdesc     string   `json:"shortdesc"`
+	Prefix        string   `json:"prefix"`
+	Publicity     string   `json:"public"`
+	Longdesc      string   `json:"longdesc"`
+	Support       string   `json:"support"`
+	OwnerAvatar   string   `json:"ownerAvatar"`
+	OwnerName     string   `json:"ownername"`
+	Analytics     string   `json:"analytics"`
+}
+
 type User struct {
 	Bio           string      `json:"biography"`
 	LongBio       string      `json:"longbio"`
@@ -23,7 +43,7 @@ type User struct {
 	Notifications []string    `bson:"notifications"`
 	MfaEnabled    bool        `json:"mfa_enabled"`
 	Badges        []string    `json:"badges"`
-	Owner         bool        `json:"owner"`
+	Owner         string      `json:"owner"`
 	ZippyExpires  int64       `json:"zippyexpiredate"`
 	Servers       []Server    `json:"servers"`
 	Token         string      `json:"token"`
@@ -38,31 +58,37 @@ type User struct {
 	DisplayName   string      `json:"display_name"`
 }
 
+type Partners struct {
+	ID               string `json:"id"`
+	Name             string `json:"name"`
+	Avatar           string `json:"avatar"`
+	Category         string `json:"category"`
+	Owner            string `json:"owner"`
+	OwnerAvatar      string `json:"ownerImage"`
+	ShortDescription string `json:"shortdesc"`
+	LongDescription  string `json:"longdesc"`
+}
+
 type Vote struct {
 	Token  string `json:"token" bson:"token"`
 	Server string `json:"server" bson:"server"`
+	Bot    string `json:"bot" bson:"bot"`
 	End    int64  `json:"end" bson:"end"`
 }
 
-type Bots struct {
-	ID            string   `json:"id"`
-	Name          string   `json:"name"`
-	Discriminator string   `json:"Discriminator"`
-	Website       string   `json:"Website URL"`
-	Github        string   `json:"github"`
-	Avatar        string   `json:"avatar"`
-	Votes         bool     `json:"votes"`
-	Tags          []string `json:"tags"`
-	Reviews       []string `json:"reviews"`
-	Shortdesc     string   `json:"shortdesc"`
-	Prefix        string   `json:"prefix"`
-	Publicity     string   `json:"public"`
-	Longdesc      string   `json:"longdesc"`
-	Support       string   `json:"support"`
-	OwnerAvatar   string   `json:"ownerAvatar"`
-	OwnerName     string   `json:"ownername"`
-	Analytics     string   `json:"analytics"`
+type Review struct {
+	Name    string `json:"name"`
+	Content string `json:"content"`
+	Token   string `json:"token"`
+	ID      string `josn:"id"`
+	Owner   string `json:"owner"`
+	Avatar  string `json:"avatar"`
 }
+
+/*
+ * Config Types: not suggested to mess with.
+ * ==========================
+ */
 
 type Config struct {
 	ApiVersion int `json:"apiVersion"`
@@ -73,6 +99,7 @@ type Config struct {
 	APIUrl     string `json:"apiUrl"`
 	HCaptcha   string `json:"hCaptcha"`
 }
+
 type Database struct {
 	Url string `json:"url"`
 }
