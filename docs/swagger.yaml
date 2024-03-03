@@ -1,0 +1,344 @@
+swagger: '2.0'
+info:
+  version: '5.0'
+  title: Topic-List API
+  description: A simple API for TOpicList which handles all requests from TopicServers and TopicBots.
+  contact:
+    name: API Support
+    email: support@topiclist.xyz
+    url: https://discord.gg/GJGbMXENtp
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://topiclist.xyz/legal/tos
+basePath: /
+host: api.topiclist.xyz
+tags:
+  - name: Servers
+    description: Operations related to servers
+  - name: Reviews
+    description: Operations related to bot reviews
+  - name: Zippy
+    description: Operations related to Zippy
+  - name: Bots
+    description: Operations related to bots
+paths:
+  /private/add:
+    post:
+      summary: Add a new server
+      description: Add a new server to the database
+      tags:
+        - Servers
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: name
+          in: formData
+          description: Server name
+          required: true
+          type: string
+        - name: icon
+          in: formData
+          description: Server icon URL
+          required: false
+          type: string
+        - name: id
+          in: formData
+          description: Server ID
+          required: true
+          type: string
+        - name: category
+          in: formData
+          description: Server category
+          required: true
+          type: string
+        - name: summary
+          in: formData
+          description: Server summary
+          required: true
+          type: string
+        - name: description
+          in: formData
+          description: Server description
+          required: true
+          type: string
+        - name: invite
+          in: formData
+          description: Server invite URL
+          required: true
+          type: string
+        - name: captcha
+          in: formData
+          description: Captcha response
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              server:
+                type: string
+        '400':
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              error:
+                type: string
+  /reviews/{botid}:
+    post:
+      summary: Add a review for a bot
+      description: Add a review for a bot identified by botid
+      tags:
+        - Reviews
+      parameters:
+        - name: token
+          in: query
+          description: User token
+          required: true
+          type: string
+        - name: botid
+          in: path
+          description: Bot ID
+          required: true
+          type: string
+        - name: content
+          in: formData
+          description: Review content
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: object
+            properties:
+              reply:
+                type: string
+                example: OK
+        '400':
+          description: Invalid token or bot ID
+          schema:
+            type: object
+            properties:
+              reply:
+                type: string
+                example: TOKEN_INVALID or BOT_INVALID
+        '500':
+          description: Internal server error
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Database connection not available
+  /private/zippy/authorize:
+    get:
+      summary: Authorize Zippy
+      description: Authorize Zippy with the provided code
+      tags:
+        - Zippy
+      parameters:
+        - name: code
+          in: query
+          description: Zippy authorization code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: OK
+              token:
+                type: string
+        '400':
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: INVALID
+        '500':
+          description: Internal server error
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Database connection not available
+  /delete/{botid}:
+    get:
+      summary: Delete Bot
+      description: Delete a bot with the provided ID
+      tags:
+        - Bots
+      parameters:
+        - name: token
+          in: query
+          description: User token
+          required: true
+          type: string
+        - name: botid
+          in: path
+          description: Bot ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success response
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+                example: VALID
+        '400':
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+                example: BOT_NOT_FOUND
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+                example: TOKEN_INVALID
+        '500':
+          description: Internal server error
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Database connection not available
+  /reviews/{botid}/delete:
+    delete:
+      summary: Delete Review
+      description: Delete a review for a bot with the provided ID
+      tags:
+        - Reviews
+      parameters:
+        - name: token
+          in: query
+          description: User token
+          required: true
+          type: string
+        - name: botid
+          in: path
+          description: Bot ID
+          required: true
+          type: string
+        - name: reviewid
+          in: query
+          description: Review ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success response
+          schema:
+            type: object
+            properties:
+              reply:
+                type: string
+                example: OK
+        '403':
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              reply:
+                type: string
+                example: FORBIDDEN
+        '404':
+          description: Bot not found
+          schema:
+            type: object
+            properties:
+              reply:
+                type: string
+                example: BOT_INVALID
+        '500':
+          description: Internal server error
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Database connection not available
+  /editbot/settings:
+    put:
+      summary: Edit Bot Settings
+      description: Edit settings for a bot with the provided ID
+      tags:
+        - Bots
+      parameters:
+        - name: token
+          in: query
+          description: User token
+          required: true
+          type: string
+        - name: id
+          in: query
+          description: Bot ID
+          required: true
+          type: string
+        - name: publicity[name]
+          in: formData
+          description: Publicity name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success response
+          schema:
+            type: object
+            properties:
+              reply:
+                type: string
+                example: worked
+              id:
+                type: string
+                example: botID
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+                example: TOKEN_INVALID
+        '404':
+          description: Bot not found
+          schema:
+            type: object
+            properties:
+              reply:
+                type: string
+                example: BOT_NOT_FOUND
+        '500':
+          description: Internal server error
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Database connection not available

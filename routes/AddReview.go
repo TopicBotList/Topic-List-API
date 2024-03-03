@@ -12,6 +12,21 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+// AddReview adds a review for a bot.
+//	@Summary		Add a review for a bot
+//	@Description	Add a review for a bot identified by botid
+//	@Tags			Reviews
+//	@Accept			json
+//	@Produce		json
+//	@Param			token	query		string	true	"User token"
+//	@Param			botid	path		string	true	"Bot ID"
+//	@Param			content	formData	string	true	"Review content"
+//	@Success		200		{object}	fiber.Map{"reply": "OK"}
+//	@Failure		400		{object}	fiber.Map{"reply": "TOKEN_INVALID"}
+//	@Failure		400		{object}	fiber.Map{"reply": "BOT_INVALID"}
+//	@Failure		500		{object}	fiber.Map{"error": "Database connection not available"}
+//	@Router			/reviews/{botid} [post]
+
 func AddReview(c *fiber.Ctx) error {
 	token := c.Query("token")
 	botID := c.Params("botid")
@@ -80,4 +95,5 @@ func generateID() string {
 		id[i] = chars[rand.Intn(len(chars))]
 	}
 	return string(id)
+
 }

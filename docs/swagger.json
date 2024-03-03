@@ -1,0 +1,125 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "A simple API for TopicList which handles all requests from TopicServers and TopicBots.",
+        "title": "Topic-List API",
+        "termsOfService": "https://topiclist.xyz/legal/tos",
+        "contact": {
+            "name": "API Support",
+            "url": "https://discord.gg/GJGbMXENtp",
+            "email": "support@topiclist.xyz"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "5.0"
+    },
+    "host": "api.topiclist.xyz",
+    "basePath": "/swagger/index.html",
+    "paths": {
+        "/private/add": {
+            "post": {
+                "summary": "Add a new server",
+                "description": "Add a new server to the database",
+                "tags": [
+                    "Servers"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "description": "Server name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "icon",
+                        "in": "formData",
+                        "description": "Server icon URL",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "formData",
+                        "description": "Server ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "category",
+                        "in": "formData",
+                        "description": "Server category",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "summary",
+                        "in": "formData",
+                        "description": "Server summary",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "description": "Server description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "invite",
+                        "in": "formData",
+                        "description": "Server invite URL",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "captcha",
+                        "in": "formData",
+                        "description": "Captcha response",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "server": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
