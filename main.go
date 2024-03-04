@@ -9,28 +9,11 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/joho/godotenv"
 	"github.com/ravener/discord-oauth2"
-	swagger "github.com/swaggo/fiber-swagger"
 	"go.topiclist.xyz/configuration"
 	"go.topiclist.xyz/database"
-	_ "go.topiclist.xyz/docs"
 	"go.topiclist.xyz/routes"
 	"golang.org/x/oauth2"
 )
-
-//	@title			Topic-List API
-//	@version		5.0
-//	@description	A simple API for TopicList which handles all requests from TopicServers and TopicBots.
-//	@termsOfService	https://topiclist.xyz/legal/tos
-
-//	@contact.name	API Support
-//	@contact.url	https://discord.gg/GJGbMXENtp
-//	@contact.email	support@topiclist.xyz
-
-//	@license.name	Apache 2.0
-//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
-
-//	@host		api.topiclist.xyz
-//	@BasePath	/swagger/index.html
 
 func main() {
 	// Load environment variables from .env file
@@ -106,6 +89,7 @@ func main() {
 			},
 		})
 	})
+
 	//Shared
 	v1.Get("/auth/login", routes.Login)
 	v1.Get("/auth/callback", routes.Callback)
@@ -116,40 +100,38 @@ func main() {
 	v1.Get("/private/server/all", routes.FindServers)
 	v1.Get("/private/server/:serverid", routes.GetServer)
 	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
-	v1.Get("/private/server/vote/:serverid", routes.VoteServ)
 	v1.Get("/private/server/:serverid/edit", routes.EditServer)
 
 	//Add
-	v1.Get("/private/add", routes.AddServer)
+	v1.Post("/private/add", routes.AddServer)
 
 	//Reviews
-
-	v1.Get("/reviews/:botid/add", routes.AddReview) //works
-	v1.Get("/reviews/:botid/delete", routes.DeleteReview)
+	v1.Post("/reviews/:botid/add", routes.AddReview) //works
+	v1.Delete("/reviews/:botid/delete", routes.DeleteReview)
 
 	//Users
 	v1.Get("/private/user/get", routes.GetUserInfo)
 	v1.Get("/private/user/:userid", routes.GetUser)
-	v1.Get("/private/user/edit", routes.EditUser)
-	v1.Get("/users/edit", routes.UserSettings)
+	v1.Post("/private/user/edit", routes.EditUser)
+	v1.Post("/users/edit", routes.UserSettings)
+	v1.Post("/users/edit", routes.UserEditBots)
 	v1.Get("/users/settings", routes.UserSettings)
 	v1.Get("/users/notifications", routes.UserNotifications)
 
 	//Zippy
 	v1.Get("/private/zippy/token", routes.GetToken)
-	v1.Get("/private/zippy/authorize", routes.AuthorizeZippy)
+	v1.Post("/private/zippy/authorize", routes.AuthorizeZippy)
 
-	//Docs
-	app.Get("/swagger/*", swagger.WrapHandler)
+	//Vote
+	v1.Post("/vote/:botid", routes.VoteBot)
+	v1.Post("/private/server/vote/:serverid", routes.VoteServ)
 
 	//Bots
 	v1.Get("/find_bots", routes.FindBots)
-	v1.Get("/editbot/settings", routes.EditBotSettings)
-	v1.Get("/delete/:botid", routes.DeleteBot)
-	v1.Get("/users/edit", routes.UserEditBots)
+	v1.Post("/editbot/settings", routes.EditBotSettings)
+	v1.Delete("/delete/:botid", routes.DeleteBot)
 	v1.Get("/bot", routes.BotRoute)
 	v1.Get("/info", routes.InfoRoute)
-	v1.Get("/vote/:botid", routes.VoteBot)
 	v1.Get("/explore", routes.Explore)
 
 	// Listen and serve

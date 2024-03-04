@@ -13,24 +13,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-// AddServer method to add a new server.
-//	@Summary		Add a new server
-//	@Description	Add a new server to the database
-//	@Tags			Servers
-//	@Accept			json
-//	@Produce		json
-//	@Param			name		formData	string	true	"Server name"
-//	@Param			icon		formData	string	false	"Server icon URL"
-//	@Param			id			formData	string	true	"Server ID"
-//	@Param			category	formData	string	true	"Server category"
-//	@Param			summary		formData	string	true	"Server summary"
-//	@Param			description	formData	string	true	"Server description"
-//	@Param			invite		formData	string	true	"Server invite URL"
-//	@Param			captcha		formData	string	true	"Captcha response"
-//	@Success		200			{object}	fiber.Map{"status": "string", "server": "string"}
-//	@Failure		400			{object}	fiber.Map{"status": "string", "error": "string"}
-//	@Router			/private/add [post]
-
 func AddServer(c *fiber.Ctx) error {
 	// config := c.Locals("config").(types.Config) // Remove this line if not used
 
