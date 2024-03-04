@@ -89,36 +89,49 @@ func main() {
 			},
 		})
 	})
+
 	//Shared
 	v1.Get("/auth/login", routes.Login)
 	v1.Get("/auth/callback", routes.Callback)
 	v1.Get("/auth/logout", routes.Logout)
 	v1.Get("/auth/@me", routes.GetCurrentUser)
+
 	//Servers
 	v1.Get("/private/server/all", routes.FindServers)
 	v1.Get("/private/server/:serverid", routes.GetServer)
 	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
-	v1.Get("/private/server/vote/:serverid", routes.VoteServ)
 	v1.Get("/private/server/:serverid/edit", routes.EditServer)
+
+	//Add
+	v1.Post("/private/add", routes.AddServer)
+
+	//Reviews
+	v1.Post("/reviews/:botid/add", routes.AddReview) //works
+	v1.Delete("/reviews/:botid/delete", routes.DeleteReview)
+
+	//Users
 	v1.Get("/private/user/get", routes.GetUserInfo)
 	v1.Get("/private/user/:userid", routes.GetUser)
-	v1.Get("/private/user/edit", routes.EditUser)
-	v1.Get("/private/zippy/token", routes.GetToken)           //unknown state
-	v1.Get("/private/zippy/authorize", routes.AuthorizeZippy) //unknown state
-	v1.Get("/private/add", routes.AddServer)
-	//Bots
-	v1.Get("/find_bots", routes.FindBots)
-	v1.Get("/reviews/:botid/add", routes.AddReview) //works
-	v1.Get("/reviews/:botid/delete", routes.DeleteReview)
-	v1.Get("/editbot/settings", routes.EditBotSettings)
-	v1.Get("/delete/:botid", routes.DeleteBot)
-	v1.Get("/users/edit", routes.UserEditBots)
-	v1.Get("/bot", routes.BotRoute)
-	v1.Get("/users/edit", routes.UserSettings)
+	v1.Post("/private/user/edit", routes.EditUser)
+	v1.Post("/users/edit", routes.UserSettings)
+	v1.Post("/users/edit", routes.UserEditBots)
 	v1.Get("/users/settings", routes.UserSettings)
 	v1.Get("/users/notifications", routes.UserNotifications)
+
+	//Zippy
+	v1.Get("/private/zippy/token", routes.GetToken)
+	v1.Post("/private/zippy/authorize", routes.AuthorizeZippy)
+
+	//Vote
+	v1.Post("/vote/:botid", routes.VoteBot)
+	v1.Post("/private/server/vote/:serverid", routes.VoteServ)
+
+	//Bots
+	v1.Get("/find_bots", routes.FindBots)
+	v1.Post("/editbot/settings", routes.EditBotSettings)
+	v1.Delete("/delete/:botid", routes.DeleteBot)
+	v1.Get("/bot", routes.BotRoute)
 	v1.Get("/info", routes.InfoRoute)
-	v1.Get("/vote/:botid", routes.VoteBot)
 	v1.Get("/explore", routes.Explore)
 
 	// Listen and serve

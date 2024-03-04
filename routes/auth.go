@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"strings"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
@@ -110,12 +109,9 @@ func Callback(c *fiber.Ctx) error {
 	users.UpdateOne(context.Background(), bson.M{"id": user.ID}, bson.M{"$set": bson.M{
 		"id":           user.ID,
 		"username":     user.Username,
-		"DisplayName":  user.DisplayName,
 		"avatar":       user.Avatar,
-		"mfa_enabled":  user.MfaEnabled,
 		"token":        user.Token,
 		"access_token": user.AccessToken,
-		"loggedAt":     time.Now(),
 	}}, opts)
 
 	entities := db.Database("TopicBots").Collection("usersDB1")
