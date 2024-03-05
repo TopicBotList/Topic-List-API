@@ -98,7 +98,6 @@ func main() {
 
 	//Servers
 	v1.Get("/private/server/all", routes.FindServers)
-	v1.Get("/servnum", routes.CountServers)
 	v1.Get("/private/server/:serverid", routes.GetServer)
 	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
 	v1.Get("/private/server/:serverid/edit", routes.EditServer)
@@ -112,7 +111,6 @@ func main() {
 
 	//Users
 	v1.Get("/private/user/get", routes.GetUserInfo)
-	v1.Get("/usernum", routes.UserNum)
 	v1.Get("/private/user/:userid", routes.GetUser)
 	v1.Post("/private/user/edit", routes.EditUser)
 	v1.Post("/users/edit", routes.UserSettings)
@@ -124,13 +122,17 @@ func main() {
 	v1.Get("/private/zippy/token", routes.GetToken)
 	v1.Post("/private/zippy/authorize", routes.AuthorizeZippy)
 
+	// Admin Utils
+	v1.Get("/botnum", routes.BotsNum)
+	v1.Get("/usernum", routes.UserNum)
+	v1.Get("/servnum", routes.CountServers)
+
 	//Vote
 	v1.Post("/vote/:botid", routes.VoteBot)
 	v1.Post("/private/server/vote/:serverid", routes.VoteServ)
 
 	//Bots
 	v1.Get("/find_bots", routes.FindBots)
-	v1.Get("/botnum", routes.BotsNum)
 	v1.Post("/editbot/settings", routes.EditBotSettings)
 	v1.Delete("/delete/:botid", routes.DeleteBot)
 	v1.Get("/bot", routes.BotRoute)
