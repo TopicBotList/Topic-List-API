@@ -38,7 +38,7 @@ func main() {
 
 	// Middleware: CORS
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "https://beta.topiclist.xyz,https://beta.topiclist.xyz,http://localhost:3001,http://localhost:3000,https://topic-bots.vercel.app,https://server.topiclist.xyz,https://servers.topiclist.xyz,https://topiclist.xyz",
+		AllowOrigins:     "https://beta.topiclist.xyz,https://admin.topiclist.xyz,http://localhost:3001,http://localhost:3000,https://topic-bots.vercel.app,https://server.topiclist.xyz,https://servers.topiclist.xyz,https://topiclist.xyz",
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
 		AllowCredentials: true,
@@ -98,6 +98,7 @@ func main() {
 
 	//Servers
 	v1.Get("/private/server/all", routes.FindServers)
+	v1.Get("/servnum", routes.CountServers)
 	v1.Get("/private/server/:serverid", routes.GetServer)
 	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
 	v1.Get("/private/server/:serverid/edit", routes.EditServer)
@@ -111,6 +112,7 @@ func main() {
 
 	//Users
 	v1.Get("/private/user/get", routes.GetUserInfo)
+	v1.Get("/usernum", routes.UserNum)
 	v1.Get("/private/user/:userid", routes.GetUser)
 	v1.Post("/private/user/edit", routes.EditUser)
 	v1.Post("/users/edit", routes.UserSettings)
@@ -128,6 +130,7 @@ func main() {
 
 	//Bots
 	v1.Get("/find_bots", routes.FindBots)
+	v1.Get("/botnum", routes.BotsNum)
 	v1.Post("/editbot/settings", routes.EditBotSettings)
 	v1.Delete("/delete/:botid", routes.DeleteBot)
 	v1.Get("/bot", routes.BotRoute)
