@@ -27,6 +27,7 @@ type Bots struct {
 	Votes         int      `json:"votes"`
 	Reviews       []string `bson:"reviews"`
 	Shortdesc     string   `json:"shortdesc"`
+	Staff         string   `json:"staff"`
 	Prefix        string   `json:"prefix"`
 	Publicity     string   `json:"public"`
 	Longdesc      string   `json:"longdesc"`

@@ -126,6 +126,8 @@ func main() {
 	v1.Get("/botnum", routes.BotsNum)
 	v1.Get("/usernum", routes.UserNum)
 	v1.Get("/servnum", routes.CountServers)
+	v1.Get("/staffnum", routes.StaffNum)
+	v1.Get("/team", routes.GetStaffUsers)
 
 	//Vote
 	v1.Post("/vote/:botid", routes.VoteBot)

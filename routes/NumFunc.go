@@ -30,6 +30,30 @@ func UserNum(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"total_user": totaluser})
 }
 
+func StaffNum(c *fiber.Ctx) error {
+	db, ok := c.Locals("db").(*mongo.Client)
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Database connection not available",
+		})
+	}
+
+	userCollection := db.Database("TopicBots").Collection("usersDB1")
+
+	// Define a filter to count documents where staff is true
+	filter := bson.M{"staff": "true"}
+
+	// Count documents in the collection
+	totalStaff, err := userCollection.CountDocuments(context.Background(), filter)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Error counting staff",
+		})
+	}
+
+	return c.JSON(fiber.Map{"total_staff": totalStaff})
+}
+
 func BotsNum(c *fiber.Ctx) error {
 	db, ok := c.Locals("db").(*mongo.Client)
 	if !ok {
