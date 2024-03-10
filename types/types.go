@@ -59,15 +59,12 @@ type User struct {
 	DisplayName   string      `json:"display_name"`
 }
 
-type Partners struct {
-	ID               string `json:"id"`
-	Name             string `json:"name"`
-	Avatar           string `json:"avatar"`
-	Category         string `json:"category"`
-	Owner            string `json:"owner"`
-	OwnerAvatar      string `json:"ownerImage"`
-	ShortDescription string `json:"shortdesc"`
-	LongDescription  string `json:"longdesc"`
+type Partner struct {
+	Image string `json:"image,omitempty" bson:"image,omitempty"`
+	Logo  string `json:"logo,omitempty" bson:"logo,omitempty"`
+	Title string `json:"title,omitempty" bson:"title,omitempty"`
+	Text  string `json:"text,omitempty" bson:"text,omitempty"`
+	Link  string `json:"link,omitempty" bson:"link,omitempty"`
 }
 
 type Vote struct {

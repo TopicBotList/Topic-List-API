@@ -2,6 +2,8 @@ package middlewares
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/base64"
 	"strings"
 	"time"
 
@@ -12,7 +14,25 @@ import (
 	"go.topiclist.xyz/types"
 )
 
-var jwtKey = []byte("my_secret_key")
+func generateRandomKey(length int) (string, error) {
+	bytes := make([]byte, length)
+	_, err := rand.Read(bytes)
+	if err != nil {
+		return "", err
+	}
+	return base64.URLEncoding.EncodeToString(bytes), nil
+}
+
+var jwtKey []byte
+
+func init() {
+	keyLength := 32
+	randomKey, err := generateRandomKey(keyLength)
+	if err != nil {
+		panic("Error generating random key: " + err.Error())
+	}
+	jwtKey = []byte(randomKey)
+}
 
 func GenerateJWT(c *fiber.Ctx, userID string) string {
 	token := jwt.New(jwt.SigningMethodHS256)
