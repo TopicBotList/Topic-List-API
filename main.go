@@ -129,6 +129,9 @@ func main() {
 	v1.Get("/staffnum", routes.StaffNum)
 	v1.Get("/team", routes.GetStaffUsers)
 
+	//Partner
+	v1.Get("/partners/@all", routes.GetAllPartner)
+
 	//Vote
 	v1.Post("/vote/:botid", routes.VoteBot)
 	v1.Post("/private/server/vote/:serverid", routes.VoteServ)
