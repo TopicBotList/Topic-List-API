@@ -38,10 +38,10 @@ func main() {
 
 	// Middleware: CORS
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "https://beta.topiclist.xyz,https://admin.topiclist.xyz,http://localhost:3001,http://localhost:3000,https://topic-bots.vercel.app,https://server.topiclist.xyz,https://servers.topiclist.xyz,https://topiclist.xyz",
+		AllowOrigins:     "*",
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
-		AllowCredentials: true,
+		AllowCredentials: false,
 	}))
 
 	// Middleware: Database Connection
@@ -98,6 +98,7 @@ func main() {
 
 	//Servers
 	v1.Get("/private/server/all", routes.FindServers)
+	v1.Get("/private/get/guilds", routes.GetGuilds)
 	v1.Get("/private/server/:serverid", routes.GetServer)
 	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
 	v1.Get("/private/server/:serverid/edit", routes.EditServer)

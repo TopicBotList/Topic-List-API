@@ -17,7 +17,7 @@ func getConfig() types.Config {
 			ReturnUrl: "https://beta.topiclist.xyz/",
 		},
 		Client: types.Client{
-			Id:       "1006423342401732691",
+			Id:       "925740376948609034",
 			Secret:   os.Getenv("CLIENT_SECRET"),
 			Token:    os.Getenv("CLIENT_TOKEN"),
 			Callback: "https://beta.topiclist.xyz/auth/callback",
