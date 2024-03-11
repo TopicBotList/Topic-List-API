@@ -59,6 +59,24 @@ type User struct {
 	DisplayName   string      `json:"display_name"`
 }
 
+type Post struct {
+	Slug        string      `json:"slug"`
+	Title       string      `json:"title"`
+	Date        string      `json:"date"`
+	Author      string      `json:"author"`
+	IsCoAuthor  bool        `json:"isCoAuthor"`
+	Excerpt     string      `json:"excerpt"`
+	Avatar      string      `json:"avatar"`
+	Description string      `json:"description,omitempty"` // Only present in the second JSON
+	CoWriter    bool        `json:"cowriter,omitempty"`    // Only present in the second JSON
+	Content     []PostEntry `json:"content"`
+}
+
+type PostEntry struct {
+	Heading string `json:"heading"`
+	Body    string `json:"body"`
+}
+
 type Partner struct {
 	Image string `json:"image,omitempty" bson:"image,omitempty"`
 	Logo  string `json:"logo,omitempty" bson:"logo,omitempty"`
