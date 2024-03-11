@@ -133,6 +133,10 @@ func main() {
 	//Partner
 	v1.Get("/partners/@all", routes.GetAllPartner)
 
+	//Posts
+	v1.Get("/posts/bots/@all", routes.BotsPostHandler)
+	v1.Get("/posts/serv/@all", routes.ServPostHandler)
+
 	//Vote
 	v1.Post("/vote/:botid", routes.VoteBot)
 	v1.Post("/private/server/vote/:serverid", routes.VoteServ)
