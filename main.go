@@ -38,10 +38,10 @@ func main() {
 
 	// Middleware: CORS
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "https://servers.topiclist.xyz,https://server.topiclist.xyz,https://topic-servers.vercel.app,https://topic-bots.vercel.app,https://beta.topiclist.xyz,http://localhost:3001,http://localhost:3000,https://admin.topiclist.xyz,https://topiclist.xyz",
+		AllowOrigins:     "*",
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
-		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
-		AllowCredentials: true,
+		AllowHeaders:     "Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization",
+		AllowCredentials: false,
 	}))
 
 	// Middleware: Database Connection
