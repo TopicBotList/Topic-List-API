@@ -75,8 +75,7 @@ func EditUser(c *fiber.Ctx) error {
 		server.OwnerName = user.Name
 		server.OwnerID = user.ID
 		server.OwnerAvatar = user.Avatar
-		server.ID = server.ID // Remove MongoDB's "_id" field
-		server.Owner = ""     // Remove the owner field
+		server.Owner = "Redacted" // Remove the owner field
 		fServer = append(fServer, server)
 	}
 

@@ -31,7 +31,6 @@ func GetUser(c *fiber.Ctx) error {
 	}
 
 	data.AccessToken = ""
-	data.ID = data.ID // Remove MongoDB's "_id" field
 
 	userServersCursor, err := serversCollection.Find(context.Background(), bson.M{"owner": data.Token})
 	if err != nil {
@@ -62,7 +61,6 @@ func GetUser(c *fiber.Ctx) error {
 		server.OwnerName = user.Name
 		server.OwnerID = user.ID
 		server.OwnerAvatar = user.Avatar
-		server.ID = server.ID // Remove MongoDB's "_id" field
 		server.Owner = ""
 		fServer = append(fServer, server)
 	}

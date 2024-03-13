@@ -52,11 +52,10 @@ func FindServersByCategory(c *fiber.Ctx) error {
 
 		server.OwnerName = user.Name
 		server.OwnerID = user.ID
-		user.AccessToken = "" //remove access token field
-		user.Token = ""
+		user.AccessToken = "Redacted"
+		user.Token = "Redacted"
 		server.OwnerAvatar = user.Avatar
-		server.Owner = ""
-		server.ID = server.ID // Remove MongoDB's "_id" field
+		server.Owner = "Redacted"
 
 		fdata = append(fdata, server)
 	}
@@ -81,14 +80,13 @@ func FindServersByCategory(c *fiber.Ctx) error {
 		}
 
 		// Mask the token field
-		fuser.Token = "********" // Masked value
-		fuser.AccessToken = "********"
-		fuser.ID = fuser.ID
-		fuser.Password = "" // Remove the password for security reasons
+		fuser.Token = "Redacted" // Masked value
+		fuser.AccessToken = "Redacted"
+		fuser.Password = "Redacted" // Remove the password for security reasons
 
 		// Remove the owner field from the user
-		fuser.Owner = "********" //remove this thindy
-		fuser.Token = "********"
+		fuser.Owner = "Redacted" //remove this thindy
+		fuser.Token = "Redacted"
 		fusers = append(fusers, fuser)
 	}
 
