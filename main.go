@@ -40,7 +40,7 @@ func main() {
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "*",
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
-		AllowHeaders:     "Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization",
+		AllowHeaders:     "Content-Type, Origin, X-Requested-With, Accept,x-client-key, x-client-token, x-client-secret, authorization",
 		AllowCredentials: false,
 	}))
 
@@ -97,7 +97,7 @@ func main() {
 	v1.Get("/auth/@me", routes.GetCurrentUser)
 
 	//Servers
-	v1.Get("/private/server/all", routes.FindServers)
+	v1.Get("/private/server/@all", routes.FindServers)
 	v1.Get("/private/get/guilds", routes.GetGuilds)
 	v1.Get("/private/server/:serverid", routes.GetServer)
 	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
