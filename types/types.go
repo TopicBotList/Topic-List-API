@@ -20,7 +20,7 @@ type Bots struct {
 	ID            string   `json:"id"`
 	Name          string   `json:"name"`
 	Discriminator string   `json:"Discriminator"`
-	Website       string   `json:"Website URL"`
+	Website       string   `json:"website"`
 	Github        string   `json:"github"`
 	Avatar        string   `json:"avatar"`
 	Tags          []string `json:"tags"`
@@ -29,7 +29,10 @@ type Bots struct {
 	Shortdesc     string   `json:"shortdesc"`
 	Staff         string   `json:"staff"`
 	Prefix        string   `json:"prefix"`
-	Publicity     string   `json:"public"`
+	Publicity     string   `json:"publicity"`
+	Featured      bool     `bool:"featured"`
+	Approved      bool     `bool:"approved"`
+	Reviewing     bool     `bool:"reviewing"`
 	Longdesc      string   `json:"longdesc"`
 	Support       string   `json:"support"`
 	OwnerAvatar   string   `json:"ownerAvatar"`
@@ -55,7 +58,6 @@ type User struct {
 	Entity        interface{} `json:"entity" bson:"entity"`
 	Name          string      `json:"name"`
 	Password      string      `json:"password"`
-	Approved      string      `json:"approved"`
 	DisplayName   string      `json:"display_name"`
 }
 
