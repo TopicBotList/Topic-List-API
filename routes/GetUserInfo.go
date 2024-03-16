@@ -1,5 +1,3 @@
-// routes/get_user_info.go
-
 package routes
 
 import (
@@ -12,8 +10,6 @@ import (
 )
 
 func GetUser(c *fiber.Ctx) error {
-	userID := c.Params("userid")
-
 	db, ok := c.Locals("db").(*mongo.Client)
 	if !ok {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -21,53 +17,46 @@ func GetUser(c *fiber.Ctx) error {
 		})
 	}
 
-	usersCollection := db.Database("TopicBots").Collection("usersDB1")
-	serversCollection := db.Database("TopicBots").Collection("serversDB1")
+	userCollection := db.Database("TopicBots").Collection("usersDB1")
+	serverCollection := db.Database("TopicBots").Collection("serversDB1")
 
-	data := types.User{}
-	err := usersCollection.FindOne(context.Background(), bson.M{"id": userID}).Decode(&data)
+	userID := c.Params("userid")
+
+	var user types.User
+	err := userCollection.FindOne(context.TODO(), bson.M{"id": userID}).Decode(&user)
 	if err != nil {
 		return c.JSON(fiber.Map{"result": "invalid"})
 	}
 
-	data.AccessToken = ""
+	// Redacting sensitive user fields
+	user.AccessToken = "Redacted"
 
-	userServersCursor, err := serversCollection.Find(context.Background(), bson.M{"owner": data.Token})
+	var servers []types.Server
+	cursor, err := serverCollection.Find(context.TODO(), bson.M{"owner": user.Token})
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Error finding user servers",
-		})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
 	}
-	defer userServersCursor.Close(context.Background())
+	defer cursor.Close(context.TODO())
 
-	var fServer []types.Server
-	for userServersCursor.Next(context.Background()) {
+	for cursor.Next(context.Background()) {
 		var server types.Server
-		err := userServersCursor.Decode(&server)
-		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": "Error decoding server data",
-			})
+		if err := cursor.Decode(&server); err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
 		}
-
-		user := types.User{}
-		err = usersCollection.FindOne(context.Background(), bson.M{"token": server.Owner}).Decode(&user)
-		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": "Error finding owner user",
-			})
-		}
-
+		// Assign user data to server object
+		server.OwnerAvatar = user.Avatar
 		server.OwnerName = user.Name
 		server.OwnerID = user.ID
-		server.OwnerAvatar = user.Avatar
 		server.Owner = ""
-		fServer = append(fServer, server)
+
+		servers = append(servers, server)
 	}
 
-	data.Owner = ""
-	data.Token = "" // Remove the token for security reasons
-	data.Servers = fServer
+	// Assign servers to user
+	user.Servers = servers
 
-	return c.JSON(fiber.Map{"result": data})
+	// Omitting token field from the response
+	user.Token = ""
+
+	return c.JSON(fiber.Map{"result": user})
 }

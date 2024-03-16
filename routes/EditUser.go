@@ -50,8 +50,6 @@ func EditUser(c *fiber.Ctx) error {
 		})
 	}
 
-	data.ID = "" // Remove MongoDB's "_id" field
-
 	userServersCursor, err := serversCollection.Find(context.Background(), bson.M{"owner": data.Token})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
