@@ -32,6 +32,7 @@ func GetUserInfo(c *fiber.Ctx) error {
 	user.ID = ""       // Remove MongoDB's "_id" field
 	user.Token = ""    // Remove the token for security reasons
 	user.Password = "" // Remove the password for security reasons
+	user.AccessToken = ""
 
 	return c.JSON(fiber.Map{"result": user})
 }

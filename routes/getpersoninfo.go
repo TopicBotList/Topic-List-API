@@ -59,6 +59,7 @@ func InfoRoute(c *fiber.Ctx) error {
 	}
 
 	userDocument["token"] = nil
+	userDocument["access_token"] = nil
 
 	return c.JSON(fiber.Map{"result": userDocument, "assets": userAssets})
 }
