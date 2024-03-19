@@ -30,8 +30,10 @@ type Bots struct {
 	Staff         string   `json:"staff"`
 	Prefix        string   `json:"prefix"`
 	Publicity     string   `json:"publicity"`
+	ServCount     int      `json:"serverCount"`
 	Featured      bool     `bool:"featured"`
 	Approved      bool     `bool:"approved"`
+	NSFW          bool     `bool:"nsfw"`
 	Reviewing     bool     `bool:"reviewing"`
 	Longdesc      string   `json:"longdesc"`
 	Support       string   `json:"support"`

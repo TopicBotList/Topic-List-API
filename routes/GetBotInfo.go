@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -19,13 +20,12 @@ func BotRoute(c *fiber.Ctx) error {
 	botsCollection := db.Database("TopicBots").Collection("botsDB1")
 	analyticsCollection := db.Database("TopicBots").Collection("analyticsDB1")
 
-	user := c.Query("user")
-	userResult := botsCollection.FindOne(context.TODO(), bson.M{"id": user})
+	botID := c.Params("botid")
+	userResult := botsCollection.FindOne(context.TODO(), bson.M{"id": botID})
 	var userDocument bson.M
 	if err := userResult.Decode(&userDocument); err != nil {
 		return c.JSON(fiber.Map{"result": "none"})
 	}
-
 	if userDocument == nil {
 		return c.JSON(fiber.Map{"result": "none"})
 	}
@@ -33,8 +33,8 @@ func BotRoute(c *fiber.Ctx) error {
 	userDocument["_id"] = nil
 
 	requester := c.Query("requester")
-	approved, _ := userDocument["approved"].(bool)
 	owner, _ := userDocument["owner"].(string)
+	approved, _ := userDocument["approved"].(bool)
 
 	if !approved {
 		if owner == requester {
@@ -73,6 +73,18 @@ func BotRoute(c *fiber.Ctx) error {
 		_, err := analyticsCollection.UpdateOne(context.TODO(), bson.M{"id": userDocument["id"]}, bson.M{"$set": bson.M{"views": views + 1}})
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to update analytics data"})
+		}
+	}
+
+	// Redact token before sending the response
+	userDocument["token"] = "redacted"
+
+	// Handle reviews which could be of type primitive.A
+	if reviews, ok := userDocument["reviews"].(primitive.A); ok {
+		for _, r := range reviews {
+			if review, ok := r.(bson.M); ok {
+				review["token"] = "redacted"
+			}
 		}
 	}
 

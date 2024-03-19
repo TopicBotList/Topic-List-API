@@ -103,6 +103,14 @@ func main() {
 	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
 	v1.Get("/private/server/:serverid/edit", routes.EditServer)
 
+	//Bots
+	v1.Get("/find_bots", routes.FindBots)
+	v1.Post("/editbot/settings", routes.EditBotSettings)
+	v1.Delete("/delete/:botid", routes.DeleteBot)
+	v1.Get("/bot/:botid", routes.BotRoute)
+	v1.Get("/info", routes.InfoRoute)
+	v1.Get("/explore", routes.Explore)
+
 	//Add
 	v1.Post("/private/add", routes.AddServer)
 
@@ -140,14 +148,6 @@ func main() {
 	//Vote
 	v1.Post("/vote/:botid", routes.VoteBot)
 	v1.Post("/private/server/vote/:serverid", routes.VoteServ)
-
-	//Bots
-	v1.Get("/find_bots", routes.FindBots)
-	v1.Post("/editbot/settings", routes.EditBotSettings)
-	v1.Delete("/delete/:botid", routes.DeleteBot)
-	v1.Get("/bot", routes.BotRoute)
-	v1.Get("/info", routes.InfoRoute)
-	v1.Get("/explore", routes.Explore)
 
 	// Listen and serve
 	port := configuration.GetConfig().Web.Port
