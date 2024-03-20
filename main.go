@@ -137,6 +137,7 @@ func main() {
 	v1.Get("/servnum", routes.CountServers)
 	v1.Get("/staffnum", routes.StaffNum)
 	v1.Get("/team", routes.GetStaffUsers)
+	v1.Get("/unapprovedbotsnum", routes.UnapprovedNum)
 
 	//Partner
 	v1.Get("/partners/@all", routes.GetAllPartner)
