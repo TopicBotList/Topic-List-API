@@ -54,6 +54,30 @@ func StaffNum(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"total_staff": totalStaff})
 }
 
+func UnapprovedNum(c *fiber.Ctx) error {
+	db, ok := c.Locals("db").(*mongo.Client)
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Database connection not available",
+		})
+	}
+
+	userCollection := db.Database("TopicBots").Collection("botsDB1")
+
+	// Define a filter to count documents where staff is true
+	filter := bson.M{"approved": "false"}
+
+	// Count documents in the collection
+	UnapprovedNum, err := userCollection.CountDocuments(context.Background(), filter)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Error counting unpprovedbots",
+		})
+	}
+
+	return c.JSON(fiber.Map{"total_unapprovedbots": UnapprovedNum})
+}
+
 func BotsNum(c *fiber.Ctx) error {
 	db, ok := c.Locals("db").(*mongo.Client)
 	if !ok {
