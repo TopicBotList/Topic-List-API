@@ -14,8 +14,6 @@ import (
 )
 
 func AddServer(c *fiber.Ctx) error {
-	// config := c.Locals("config").(types.Config) // Remove this line if not used
-
 	captchaResponse := c.FormValue("captcha")
 
 	hCaptchaResp, err := http.PostForm("https://hcaptcha.com/siteverify", map[string][]string{
