@@ -71,8 +71,8 @@ type Post struct {
 	IsCoAuthor  bool        `json:"isCoAuthor"`
 	Excerpt     string      `json:"excerpt"`
 	Avatar      string      `json:"avatar"`
-	Description string      `json:"description,omitempty"` // Only present in the second JSON
-	CoWriter    bool        `json:"cowriter,omitempty"`    // Only present in the second JSON
+	Description string      `json:"description,omitempty"`
+	CoWriter    bool        `json:"cowriter,omitempty"`
 	Content     []PostEntry `json:"content"`
 }
 
@@ -82,11 +82,11 @@ type PostEntry struct {
 }
 
 type Partner struct {
-	Image string `json:"image,omitempty" bson:"image,omitempty"`
-	Logo  string `json:"logo,omitempty" bson:"logo,omitempty"`
-	Title string `json:"title,omitempty" bson:"title,omitempty"`
-	Text  string `json:"text,omitempty" bson:"text,omitempty"`
-	Link  string `json:"link,omitempty" bson:"link,omitempty"`
+	Banner string `json:"banner,omitempty" bson:"banner,omitempty"`
+	Logo   string `json:"logo,omitempty" bson:"logo,omitempty"`
+	Title  string `json:"title,omitempty" bson:"title,omitempty"`
+	Text   string `json:"text,omitempty" bson:"text,omitempty"`
+	Link   string `json:"link,omitempty" bson:"link,omitempty"`
 }
 
 type Vote struct {
@@ -106,7 +106,8 @@ type Review struct {
 }
 
 /*
- * Config Types: not suggested to mess with.
+ * ==========================
+ * Configuration Types: not suggested to mess with!!
  * ==========================
  */
 
