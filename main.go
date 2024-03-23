@@ -76,8 +76,7 @@ func main() {
 	})
 
 	// Routes
-	v1 := app.Group("/")
-	v1.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
 			"message": "Hello, World!",
 			"version": "5.0.0",
@@ -91,64 +90,64 @@ func main() {
 	})
 
 	//Shared
-	v1.Get("/auth/login", routes.Login)
-	v1.Get("/auth/callback", routes.Callback)
-	v1.Get("/auth/logout", routes.Logout)
-	v1.Get("/auth/@me", routes.GetCurrentUser)
+	app.Get("/auth/login", routes.Login)
+	app.Get("/auth/callback", routes.Callback)
+	app.Get("/auth/logout", routes.Logout)
+	app.Get("/auth/@me", routes.GetCurrentUser)
 
 	//Servers
-	v1.Get("/private/server/@all", routes.FindServers)
-	v1.Get("/private/get/guilds", routes.GetGuilds)
-	v1.Get("/private/server/:serverid", routes.GetServer)
-	v1.Get("/private/server/cat/:cat", routes.FindServersByCategory)
-	v1.Get("/private/server/:serverid/edit", routes.EditServer)
+	app.Get("/private/server/@all", routes.FindServers)
+	app.Get("/private/get/guilds", routes.GetGuilds)
+	app.Get("/private/server/:serverid", routes.GetServer)
+	app.Get("/private/server/cat/:cat", routes.FindServersByCategory)
+	app.Get("/private/server/:serverid/edit", routes.EditServer)
 
 	//Bots
-	v1.Get("/find_bots", routes.FindBots)
-	v1.Post("/editbot/settings", routes.EditBotSettings)
-	v1.Delete("/delete/:botid", routes.DeleteBot)
-	v1.Get("/bot/:botid", routes.BotRoute)
-	v1.Get("/info", routes.InfoRoute)
-	v1.Get("/explore", routes.Explore)
+	app.Get("/find_bots", routes.FindBots)
+	app.Post("/editbot/settings", routes.EditBotSettings)
+	app.Delete("/delete/:botid", routes.DeleteBot)
+	app.Get("/bot/:botid", routes.BotRoute)
+	app.Get("/info", routes.InfoRoute)
+	app.Get("/explore", routes.Explore)
 
 	//Add
-	v1.Post("/private/add", routes.AddServer)
+	app.Post("/private/add", routes.AddServer)
 
 	//Reviews
-	v1.Post("/reviews/:botid/add", routes.AddReview) //works
-	v1.Delete("/reviews/:botid/delete", routes.DeleteReview)
+	app.Post("/reviews/:botid/add", routes.AddReview) //works
+	app.Delete("/reviews/:botid/delete", routes.DeleteReview)
 
 	//Users
-	v1.Get("/private/user/get", routes.GetUserInfo)
-	v1.Get("/private/user/:userid", routes.GetUser)
-	v1.Post("/private/user/edit", routes.EditUser)
-	v1.Post("/users/edit", routes.UserSettings)
-	v1.Post("/users/edit", routes.UserEditBots)
-	v1.Get("/users/settings", routes.UserSettings)
-	v1.Get("/users/notifications", routes.UserNotifications)
+	app.Get("/private/user/get", routes.GetUserInfo)
+	app.Get("/private/user/:userid", routes.GetUser)
+	app.Post("/private/user/edit", routes.EditUser)
+	app.Post("/users/edit", routes.UserSettings)
+	app.Post("/users/edit", routes.UserEditBots)
+	app.Get("/users/settings", routes.UserSettings)
+	app.Get("/users/notifications", routes.UserNotifications)
 
 	//Zippy
-	v1.Get("/private/zippy/token", routes.GetToken)
-	v1.Post("/private/zippy/authorize", routes.AuthorizeZippy)
+	app.Get("/private/zippy/token", routes.GetToken)
+	app.Post("/private/zippy/authorize", routes.AuthorizeZippy)
 
 	// Admin Utils
-	v1.Get("/botnum", routes.BotsNum)
-	v1.Get("/usernum", routes.UserNum)
-	v1.Get("/servnum", routes.CountServers)
-	v1.Get("/staffnum", routes.StaffNum)
-	v1.Get("/team", routes.GetStaffUsers)
-	v1.Get("/unapprovedbotsnum", routes.UnapprovedNum)
+	app.Get("/botnum", routes.BotsNum)
+	app.Get("/usernum", routes.UserNum)
+	app.Get("/servnum", routes.CountServers)
+	app.Get("/staffnum", routes.StaffNum)
+	app.Get("/team", routes.GetStaffUsers)
+	app.Get("/unapprovedbotsnum", routes.UnapprovedNum)
 
 	//Partner
-	v1.Get("/partners/@all", routes.GetAllPartner)
+	app.Get("/partners/@all", routes.GetAllPartner)
 
 	//Posts
-	v1.Get("/posts/bots/@all", routes.BotsPostHandler)
-	v1.Get("/posts/serv/@all", routes.ServPostHandler)
+	app.Get("/posts/bots/@all", routes.BotsPostHandler)
+	app.Get("/posts/serv/@all", routes.ServPostHandler)
 
 	//Vote
-	v1.Post("/vote/:botid", routes.VoteBot)
-	v1.Post("/private/server/vote/:serverid", routes.VoteServ)
+	app.Post("/vote/:botid", routes.VoteBot)
+	app.Post("/private/server/vote/:serverid", routes.VoteServ)
 
 	// Listen and serve
 	port := configuration.GetConfig().Web.Port

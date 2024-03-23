@@ -1,5 +1,3 @@
-// routes/edit_user.go
-
 package routes
 
 import (
