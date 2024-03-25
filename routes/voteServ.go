@@ -1,5 +1,3 @@
-// routes/vote.go
-
 package routes
 
 import (

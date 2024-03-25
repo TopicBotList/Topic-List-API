@@ -1,5 +1,3 @@
-// routes/edit_server.go
-
 package routes
 
 import (

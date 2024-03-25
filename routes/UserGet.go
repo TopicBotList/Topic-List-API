@@ -1,5 +1,3 @@
-// routes/get_user_info.go
-
 package routes
 
 import (

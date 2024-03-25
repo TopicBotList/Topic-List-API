@@ -1,5 +1,3 @@
-// routes/get_token.go
-
 package routes
 
 import (
