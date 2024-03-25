@@ -1,5 +1,3 @@
-// private/add_server.go
-
 package routes
 
 import (

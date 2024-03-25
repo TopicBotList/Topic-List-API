@@ -114,7 +114,7 @@ func main() {
 	app.Post("/private/add", routes.AddServer)
 
 	//Reviews
-	app.Post("/reviews/:botid/add", routes.AddReview) //works
+	app.Post("/reviews/:botid/add", routes.AddReview)
 	app.Delete("/reviews/:botid/delete", routes.DeleteReview)
 
 	//Users
